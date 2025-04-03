@@ -22,8 +22,8 @@ pipeline {
                 sh '''
                     python3 -m venv .venv
                     . .venv/bin/activate
-                    pip install -r test/requirements.txt
-                    pytest ./test
+                    pip install -r tests/requirements.txt
+                    pytest ./tests
                 '''
             }
         }
