@@ -9,6 +9,14 @@ pipeline {
                 '''
             }
         }
+        stage('Run app with Docker compose') {
+            steps {
+                sh '''
+                    docker compose down || true
+                    docker compose up -d
+                '''
+            }
+        }
         
     }
 
