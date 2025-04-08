@@ -7,7 +7,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Load database configuration from environment variables
-DB_HOST = os.environ.get("DB_HOST1", "db1")  # Default to 'db' since Docker Compose names it as such
+DB_HOST = os.environ.get("DB_HOST", "db")  # Default to 'db' since Docker Compose names it as such
 DB_USER = os.environ.get("DB_USER", "root")
 DB_PASSWORD = os.environ.get("DB_PASSWORD", "password")
 DB_NAME = os.environ.get("DB_NAME", "todo")
