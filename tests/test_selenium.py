@@ -46,7 +46,7 @@ def test_site(driver):
             delete_button = task.find_element(By.XPATH, ".//input[@type='submit' and @value='Delete']")
             delete_button.click()
             break
-
+    sleep(1)
     # Verify task was deleted
     assert "test123" not in driver.page_source
 
@@ -71,6 +71,6 @@ def test_site2(driver):
             delete_button = task.find_element(By.XPATH, ".//input[@type='submit' and @value='Delete']")
             delete_button.click()
             break
-
+    sleep(1)
     assert "test1234" not in driver.page_source
 
