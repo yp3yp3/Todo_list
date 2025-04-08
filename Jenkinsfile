@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         IMAGE_NAME = 'yp3yp3/to_do_list'
+        VERSION = "${BUILD_NUMBER}"
     }
     stages {
         stage('Build Docker Image') {
@@ -34,7 +35,8 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                     script {
                         docker.withRegistry('', 'docker-hub') {
-                            docker.image("${IMAGE_NAME}").push('latest1')
+                            docker.image("${IMAGE_NAME}").push('${VERSION}')
+                            docker.image("${IMAGE_NAME}").push('latest')    
                         }
                     }
                    }
