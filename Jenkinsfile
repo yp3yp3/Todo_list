@@ -3,6 +3,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'yp3yp3/to_do_list'
         VERSION = "${BUILD_NUMBER}"
+        email = 'yp3yp3@gmail.com'
     }
     stages {
         stage('Build Docker Image') {
@@ -44,6 +45,22 @@ pipeline {
             }
         }
         post {
+             failure {
+                emailext(
+                    subject: "${JOB_NAME}.${BUILD_NUMBER} FAILED",
+                    mimeType: 'text/html',
+                    to: "$email",
+                    body: "${JOB_NAME}.${BUILD_NUMBER} FAILED"
+                )
+            }
+            success {
+                emailext(
+                    subject: "${JOB_NAME}.${BUILD_NUMBER} PASSED",
+                    mimeType: 'text/html',
+                    to: "$email",
+                    body: "${JOB_NAME}.${BUILD_NUMBER} PASSED"
+                )
+            }
             always {
                 sh '''
                     docker compose down || true
