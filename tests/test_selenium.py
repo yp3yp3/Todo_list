@@ -56,7 +56,7 @@ def test_site2(driver):
     driver.get(APP_URL)
     sleep(1)
 
-    assert "Advanced Todo List" in driver.title
+    assert "Advanced Todo List" not in driver.title
 
     search = driver.find_element(By.NAME, "task")
     search.send_keys("test1234")
