@@ -34,7 +34,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                     script {
                         docker.withRegistry('', 'docker-hub') {
-                            docker.image("${IMAGE_NAME}").push
+                            docker.image("${IMAGE_NAME}").push()
                         }
                     }
                    }
