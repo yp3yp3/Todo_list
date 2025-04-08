@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        IMAGE_NAME = 'to_do_list'
+        IMAGE_NAME = 'yp3yp3/to_do_list'
     }
     stages {
         stage('Build Docker Image') {
@@ -32,12 +32,12 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                    sh '''
-                    echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
-                    docker tag myapp $DOCKER_USERNAME/$IMAGE_NAME:latest
-                    docker push $DOCKER_USERNAME/$IMAGE_NAME:latest
-                    '''
+                    script {
+                        docker.withRegistry('', 'docker-hub') {
+                            docker.image("${IMAGE_NAME}").push
+                        }
                     }
+                   }
                 }
             }
         }
