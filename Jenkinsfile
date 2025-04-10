@@ -9,6 +9,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh '''
+                    echo $USER
                     docker build -t myapp ./app
                 '''
             }
