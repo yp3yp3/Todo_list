@@ -11,6 +11,8 @@ pipeline {
                 sh '''
                     echo $USER
                     docker build -t myapp ./app
+                    docker tag myapp ${IMAGE_NAME}:${VERSION}
+                    docker tag myapp ${IMAGE_NAME}:latest
                 '''
             }
         }
