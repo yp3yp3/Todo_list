@@ -46,6 +46,12 @@ pipeline {
         }
         post {
              failure {
+                slackSend(
+                    channel: '#jenkins',
+                    color: 'danger',
+                    message: "${JOB_NAME}.${BUILD_NUMBER} FAILED"
+                )
+                
                 emailext(
                     subject: "${JOB_NAME}.${BUILD_NUMBER} FAILED",
                     mimeType: 'text/html',
@@ -54,6 +60,11 @@ pipeline {
                 )
             }
             success {
+                slackSend(
+                    channel: '#jenkins',
+                    color: 'good',
+                    message: "${JOB_NAME}.${BUILD_NUMBER} PASSED"
+                )
                 emailext(
                     subject: "${JOB_NAME}.${BUILD_NUMBER} PASSED",
                     mimeType: 'text/html',
