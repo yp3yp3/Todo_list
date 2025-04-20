@@ -21,7 +21,7 @@ pipeline {
                 sh '''
                     docker compose down || true
                     docker compose up -d
-                    sleep 10
+                    sleep 40
                 '''
             }
         }
