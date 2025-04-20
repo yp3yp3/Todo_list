@@ -20,9 +20,6 @@ apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker
 # Add 'ubuntu' user to docker group
 usermod -aG docker ubuntu
 
-# Apply group change immediately (no reboot)
-echo 'newgrp docker' >> /home/ubuntu/.bashrc
-
 # Install Python 3.12 and venv
 apt install -y python3.12-venv
 
