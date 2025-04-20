@@ -4,6 +4,7 @@ services:
       db:
         condition: service_healthy
     image: myapp
+    restart: on-failure
     environment:
       DB_HOST: db
       DB_NAME: todo
@@ -18,6 +19,7 @@ services:
       db:
         condition: service_healthy
     image: myapp
+    restart: on-failure
     environment:
       DB_HOST: db
       DB_NAME: todo
