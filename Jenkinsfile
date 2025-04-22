@@ -93,6 +93,7 @@ pipeline {
             always {
                 sh '''
                     docker compose down || true
+                    docker rmi myapp || true
                 '''
             }
         }
