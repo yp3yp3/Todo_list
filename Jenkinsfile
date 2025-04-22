@@ -57,6 +57,7 @@ pipeline {
                 }
             }
         }
+    }
         post {
              failure {
                 slackSend(
@@ -92,6 +93,3 @@ pipeline {
             }
         }
     }
-
-
-
