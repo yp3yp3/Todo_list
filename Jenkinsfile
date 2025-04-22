@@ -5,7 +5,7 @@ pipeline {
         VERSION = "${BUILD_NUMBER}"
         email = 'yp3yp3@gmail.com'
         REMOTE_USER = 'ubuntu'
-        REMOTE_HOST = '172.31.43.59'
+        REMOTE_HOST_STAGE = '172.31.40.99'
         DB_HOST = '172.31.42.89'
     }
     stages {
@@ -48,12 +48,12 @@ pipeline {
                    }
                 }
             }
-        stage('Deploy to Production') {
+        stage('Deploy to staging') {
             steps {
                     withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
                     sshagent (credentials: ['node1']) {
                         sh """
-                            ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} \
+                            ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST_STAGE} \
                             "docker pull ${IMAGE_NAME}:${VERSION} && docker rm -f myapp && \
                             docker run -d --name myapp \
                             -e DB_NAME=todo -e DB_USER=${DB_USERNAME} -e DB_PASSWORD=${DB_PASSWORD} -e DB_HOST=${DB_HOST} \
@@ -83,7 +83,7 @@ pipeline {
                 slackSend(
                     channel: '#jenkins',
                     color: 'good',
-                    message: "${JOB_NAME}.${BUILD_NUMBER} PASSED"
+                    message: "${JOB_NAME}.${BUILD_NUMBER} PASSED http://stage.yp3yp3.online/"
                 )
                 emailext(
                     subject: "${JOB_NAME}.${BUILD_NUMBER} PASSED",
