@@ -74,8 +74,8 @@ pipeline {
                 withCredentials([string(credentialsId: 'github', variable: 'GH_TOKEN')]) {
                     script {
                         def prTitle = "Merge ${BRANCH_NAME} into main #${VERSION}"
-                        def prBody = "This PR merges changes from ${BRANCH_NAME} into main."
-                        def prUrl = "https://api.github.com/repos/yp3yp3/to_do_list/pulls"
+                        def prBody = "This PR merges changes from ${BRANCH_NAME} into main. http://stage.yp3yp3.online/"
+                        def prUrl = "https://api.github.com/repos/yp3yp3/Todo_list/pulls"
                         def json = """
                         {
                             "title": "${prTitle}",
@@ -86,7 +86,7 @@ pipeline {
                         """
                         sh """
                             curl -X POST -H "Authorization: token ${GH_TOKEN}" -H "Accept: application/vnd.github.v3+json" \
-                            -d '${json}' ${prUrl}
+                            -d "${json}" ${prUrl}
                         """
                     }
                 }
