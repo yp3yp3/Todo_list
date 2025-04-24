@@ -10,7 +10,7 @@ pipeline {
     }
     stages {
         stage('Build Docker Image') {
-            when { not {branch 'dev'} }
+            when { not {branch 'main'} }
             steps {
                 sh '''
                     docker build -t myapp ./app
@@ -20,7 +20,7 @@ pipeline {
             }
         }
         stage('Run app with Docker compose') {
-            when { not {branch 'dev'} }
+            when { not {branch 'main'} }
             steps {
                 sh '''
                     docker compose down || true
@@ -29,7 +29,7 @@ pipeline {
             }
         }
         stage('Run Tests') {
-            when { not {branch 'dev'} }
+            when { not {branch 'main'} }
             steps {
                 sh '''
                     python3 -m venv .venv
@@ -40,7 +40,7 @@ pipeline {
             }
         }
         stage('Push Docker Image') {
-            when { not {branch 'dev'} }
+            when { not {branch 'main'} }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                     script {
@@ -53,7 +53,7 @@ pipeline {
                 }
             }
         stage('Deploy to staging') {
-            when { not {branch 'dev'} }
+            when { not {branch 'main'} }
             steps {
                     withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
                     sshagent (credentials: ['node1']) {
