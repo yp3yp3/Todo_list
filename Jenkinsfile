@@ -6,6 +6,7 @@ pipeline {
         email = 'yp3yp3@gmail.com'
         REMOTE_USER = 'ubuntu'
         REMOTE_HOST_STAGE = '172.31.40.99'
+        REMOTE_HOST_PRODUCTION = '172.31.40.242'
         DB_HOST = '172.31.42.89'
     }
     stages {
@@ -73,7 +74,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'github', variable: 'GH_TOKEN')]) {
                     script {
-                        def prTitle = "Merge ${BRANCH_NAME} into main #${VERSION}"
+                        def prTitle = "Merge ${BRANCH_NAME} into main @${VERSION}"
                         def prBody = "This PR merges changes from ${BRANCH_NAME} into main. http://stage.yp3yp3.online/"
                         def prUrl = "https://api.github.com/repos/yp3yp3/Todo_list/pulls"
                         def json = """
@@ -100,7 +101,23 @@ pipeline {
                 }
             }
         }
-    
+        stage('deploy to production') {
+            when { branch 'main' }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
+                    sshagent (credentials: ['node1']) {
+                        sh """
+                            NEW_VERSION = \$(git log -1 --pretty=%B | grep -oE '@[0-9]+' | tr -d @)
+                            ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST_PRODUCTION} \
+                            "docker pull ${IMAGE_NAME}:${NEW_VERSION} && docker rm -f myapp && \
+                            docker run -d --name myapp \
+                            -e DB_NAME=todo -e DB_USER=${DB_USERNAME} -e DB_PASSWORD=${DB_PASSWORD} -e DB_HOST=${DB_HOST} \
+                            -p 5000:5000 ${IMAGE_NAME}:${NEW_VERSION}"
+                         """
+                }
+            }
+        }
+    }
     }
         post {
              failure {
