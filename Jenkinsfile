@@ -85,8 +85,11 @@ pipeline {
                         }
                         """
                         sh """
-                            curl -X POST -H "Authorization: token ${GH_TOKEN}" -H "Accept: application/vnd.github.v3+json" \
-                            -d "${json}" ${prUrl}
+                            curl -X POST \
+                            -H "Authorization: token ${GH_TOKEN}" \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            -d "${json}" \
+                            "${prUrl}"
                         """
                     }
                 }
