@@ -67,7 +67,7 @@ pipeline {
                 }
             }
             }    
-        
+        }
         stage('Create PR to main') {
             when { not {branch 'main'} }
             steps {
@@ -92,7 +92,7 @@ pipeline {
                 }
             }
         }
-    }
+    
     }
         post {
              failure {
