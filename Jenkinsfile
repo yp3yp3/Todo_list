@@ -67,6 +67,30 @@ pipeline {
                 }
             }
             }    
+        
+        stage('Create PR to main') {
+            when { not {branch 'main'} }
+            steps {
+                withCredentials([string(credentialsId: 'github', variable: 'GH_TOKEN')]) {
+                    script {
+                        def prTitle = "Merge ${BRANCH_NAME} into main #${VERSION}"
+                        def prBody = "This PR merges changes from ${BRANCH_NAME} into main."
+                        def prUrl = "https://api.github.com/repos/yp3yp3/to_do_list/pulls"
+                        def json = """
+                        {
+                            "title": "${prTitle}",
+                            "head": "${BRANCH_NAME}",
+                            "base": "main",
+                            "body": "${prBody}"
+                        }
+                        """
+                        sh """
+                            curl -X POST -H "Authorization: token ${GH_TOKEN}" -H "Accept: application/vnd.github.v3+json" \
+                            -d '${json}' ${prUrl}
+                        """
+                    }
+                }
+            }
         }
     }
         post {
