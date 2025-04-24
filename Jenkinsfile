@@ -107,7 +107,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
                     sshagent (credentials: ['node1']) {
                         sh """
-                            NEW_VERSION = \$(git log -1 --pretty=%B | grep -oE '@[0-9]+' | tr -d @)
+                            NEW_VERSION=\$(git log -1 --pretty=%B | grep -oE '@[0-9]+' | tr -d @)
                             echo "NEW_VERSION: \${NEW_VERSION}"
                             ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST_PRODUCTION} \
                             "docker pull ${IMAGE_NAME}:${NEW_VERSION} && docker rm -f myapp && \
