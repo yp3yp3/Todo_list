@@ -77,14 +77,6 @@ pipeline {
                         def prTitle = "Merge ${BRANCH_NAME} into main @${VERSION}"
                         def prBody = "This PR merges changes from ${BRANCH_NAME} into main. http://stage.yp3yp3.online/"
                         def prUrl = "https://api.github.com/repos/yp3yp3/Todo_list/pulls"
-                        def json = """
-                        {
-                            "title": "${prTitle}",
-                            "head": "${BRANCH_NAME}",
-                            "base": "main",
-                            "body": "${prBody}"
-                        }
-                        """
                         sh """
                             curl -X POST \
                             -H "Authorization: token ${GH_TOKEN}" \
