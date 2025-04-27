@@ -61,7 +61,7 @@ pipeline {
                         sh """
                             ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST_STAGE} \
                             "docker pull ${IMAGE_NAME}:${VERSION} && docker rm -f myapp && \
-                            docker run -d --name myapp \
+                            docker run -d --name myapp --restart unless-stopped \
                             -e DB_NAME=todo -e DB_USER=${DB_USERNAME} -e DB_PASSWORD=${DB_PASSWORD} -e DB_HOST=${DB_HOST} \
                             -p 5000:5000 ${IMAGE_NAME}:${VERSION}"
                          """
@@ -124,7 +124,7 @@ pipeline {
                         sh """
                             ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST_PRODUCTION} \
                             "docker pull ${IMAGE_NAME}:${NEW_VERSION} && docker rm -f myapp && \
-                            docker run -d --name myapp \
+                            docker run -d --name myapp --restart unless-stopped \
                             -e DB_NAME=todo -e DB_USER=${DB_USERNAME} -e DB_PASSWORD=${DB_PASSWORD} -e DB_HOST=${DB_HOST} \
                             -p 5000:5000 ${IMAGE_NAME}:${NEW_VERSION}"
                          """
