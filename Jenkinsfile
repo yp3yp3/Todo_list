@@ -60,6 +60,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'github_token', passwordVariable: 'GH_TOKEN', usernameVariable: 'GH_USERNAME')]) {
                     script {
                         sh """
+                            rm -rf gitops
                             git clone https://${GH_TOKEN}@github.com/${GITOPS_REPO} gitops
                             cd gitops
                             echo "${VERSION}" > stage_version.txt
