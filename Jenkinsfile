@@ -136,8 +136,6 @@ pipeline {
                 }
             }
         }
-    }
-    }
         post {
              failure {
                 slackSend(
