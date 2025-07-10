@@ -62,7 +62,7 @@ pipeline {
                             sed -i 's/^[[:space:]]*tag:.*/    tag: ${VERSION}/' k8s/helm/todo-app-subcharts/values-stage.yaml
                             git config user.name "jenkins"
                             git config user.email "ci@jenkins.local"
-                            git add ansible/group_vars/all.yml
+                            git add k8s/helm/todo-app-subcharts/values-stage.yaml
                             git commit -m "Update stage version to ${VERSION}"
                             git push origin main
                         """
@@ -121,7 +121,7 @@ pipeline {
                             echo "${NEW_VERSION}" > production_version.txt
                             git config user.name "jenkins"
                             git config user.email "ci@jenkins.local"
-                            git add ansible/group_vars/all.yml
+                            git add k8s/helm/todo-app-subcharts/values.yaml
                             git commit -m "Update production version to ${NEW_VERSION}"
                             git push origin main
                         """
