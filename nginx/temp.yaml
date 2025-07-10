@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  BACKGROUND_COLOR: pink
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: color
