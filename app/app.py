@@ -47,7 +47,7 @@ class Task(db.Model):
 # Create tables in the database if they don't exist
 with app.app_context():
     db.create_all()
-
+@app.route('/stage', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
