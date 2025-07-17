@@ -2,10 +2,11 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from prometheus_exporter import PrometheusMetrics
 
 # Initialize Flask application
 app = Flask(__name__)
-
+metrics = PrometheusMetrics(app)
 # Load database configuration from environment variables
 DB_HOST = os.environ.get("DB_HOST", "db")  # Default to 'db' since Docker Compose names it as such
 DB_USER = os.environ.get("DB_USER", "root")
