@@ -117,7 +117,7 @@ pipeline {
                             rm -rf gitops
                             git clone https://${GH_TOKEN}@github.com/${GITOPS_REPO} gitops
                             cd gitops
-                            sed -i 's/^[[:space:]]*tag:.*/    tag: ${VERSION}/' k8s/helm/todo-app-subcharts/values.yaml
+                            sed -i 's/^[[:space:]]*tag:.*/    tag: ${NEW_VERSION}/' k8s/helm/todo-app-subcharts/values.yaml
                             echo "${NEW_VERSION}" > production_version.txt
                             git config user.name "jenkins"
                             git config user.email "ci@jenkins.local"
