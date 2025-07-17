@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from prometheus_exporter import PrometheusMetrics
+from  prometheus_flask_exporter import PrometheusMetrics
 
 # Initialize Flask application
 app = Flask(__name__)
